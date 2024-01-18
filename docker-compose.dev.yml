@@ -1,6 +1,6 @@
 services:
   express:
-    image: ghcr.io/alexispet/final-test-alan-crts/express-app:main
+    image: ghcr.io/alexispet/final-test-alan-crts/express-app:dev
     depends_on:
       - mariadb
     environment:
@@ -11,14 +11,14 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
-      - "traefik.http.routers.express-prod.rule=Host(`cesi.alan-courtois.fr`)"
-      - "traefik.http.routers.express-prod.entrypoints=websecure"
-      - "traefik.http.routers.express-prod.tls.certresolver=myresolver"
-      - "traefik.http.services.express-prod.loadbalancer.server.port=3000"
+      - "traefik.http.routers.express-dev.rule=Host(`dev.cesi.alan-courtois.fr`)"
+      - "traefik.http.routers.express-dev.entrypoints=websecure"
+      - "traefik.http.routers.express-dev.tls.certresolver=myresolver"
+      - "traefik.http.services.express-dev.loadbalancer.server.port=3000"
       - "traefik.docker.network=internet"
     networks:
       - internet
-      - prod
+      - dev
   mariadb:
     image: mariadb:11.2.2
     environment:
@@ -29,9 +29,9 @@ services:
     volumes:
       - ./db:/var/lib/mysql
     networks:
-      - prod
+      - dev
 networks:
   internet:
     external: true
     name: custom_frontend
-  prod:
+  dev:
