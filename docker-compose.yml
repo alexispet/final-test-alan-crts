@@ -17,24 +17,6 @@ services:
       mariadb:
         condition: service_healthy
 
-  test:
-    build:
-      context: .
-      target: test
-    volumes:
-      - .:/app
-    ports:
-      - 3000:3000
-    environment:
-      NODE_ENV: development
-      DB_HOST: ${DB_HOST}
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-    depends_on:
-      mariadb:
-        condition: service_healthy
-
   mariadb:
     image: mariadb:11.2.2
     volumes:

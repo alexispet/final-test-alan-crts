@@ -6,28 +6,29 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:    
-  test:
+  tests:
     environment: development
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache/restore@v3
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+      - uses: adambirds/docker-compose-action@v1.3.0
         with:
-          path: |
-            node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Mocha tests
-        run: docker compose up test --build --abort-on-container-exit
+            compose-file: "./docker-compose.yml"
+            down-flags: "--volumes"
+            services: |
+                express
+                mariadb
+            test-container: express
+            test-command: "npm run test"
+        env: 
+            DB_DATABASE: ${{ secrets.DB_DATABASE }}
+            DB_HOST: ${{ secrets.DB_HOST }}
+            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+            DB_USER: ${{ secrets.DB_USER }}
   
   build-and-push-image:
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [tests]
 
     permissions:
       contents: read
