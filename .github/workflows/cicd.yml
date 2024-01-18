@@ -47,10 +47,13 @@ jobs:
     - name: Run ESLint
       run: npm run lint
           
-  build-and-push-image:
+  build-prod:
     runs-on: ubuntu-latest
     needs: [security, eslint]
-
+    environment:
+      name: production
+      url: https://ec2-54-172-119-210.compute-1.amazonaws.com
+    if: github.ref_name == 'main'
     permissions:
       contents: read
       packages: write
@@ -78,4 +81,40 @@ jobs:
           target: express
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }}:latest
+
+  build-dev:
+      runs-on: ubuntu-latest
+      needs: [security, eslint]
+      environment:
+        name: development
+        url: https://ec2-54-172-119-210.compute-1.amazonaws.com:3000
+      if: github.ref_name == 'develop'
+      permissions:
+        contents: read
+        packages: write
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Log in to the Container registry
+          uses: docker/login-action@v3
+          with:
+            registry: ${{ env.REGISTRY }}
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
+            
+        - name: Extract metadata (tags, labels) for Docker
+          id: meta
+          uses: docker/metadata-action@v5
+          with:
+            images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/express-app
+
+        - name: Build and push Docker image
+          uses: docker/build-push-action@v5
+          with:
+            context: .
+            target: express
+            push: true
+            tags: ${{ steps.meta.outputs.tags }}
+            labels: ${{ steps.meta.outputs.labels }}:development
