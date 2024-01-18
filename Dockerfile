@@ -11,8 +11,8 @@ LABEL org.opencontainers.image.source https://github.com/alexispet/final-test-al
 
 WORKDIR /app
 
-COPY --from=build /app/database .
-COPY --from=build /app/node_modules .
+COPY --from=build /app/database ./database
+COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json .
 COPY --from=build /app/app.js .
 
