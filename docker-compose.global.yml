@@ -28,3 +28,10 @@ services:
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - internet
+
+networks:
+  internet:
+    driver: bridge
+    name: custom_frontend
