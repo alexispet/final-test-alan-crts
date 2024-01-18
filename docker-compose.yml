@@ -1,0 +1,54 @@
+services:
+  express:
+    build:
+      context: .
+      target: express
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    environment:
+      NODE_ENV: development
+      DB_HOST: ${DB_HOST}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  test:
+    build:
+      context: .
+      target: test
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    environment:
+      NODE_ENV: development
+      DB_HOST: ${DB_HOST}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  mariadb:
+    image: mariadb:11.2.2
+    volumes:
+      - ./docker/mariadb/data:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_HOST: ${DB_HOST}
+    ports:
+      - 3306:3306
+    healthcheck:
+        test: ["CMD", "healthcheck.sh", "--su-mysql", "--connect"]
+        interval: 5s
+        timeout: 20s
+        retries: 10
