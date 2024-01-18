@@ -81,7 +81,7 @@ jobs:
           target: express
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
 
   build-dev:
       runs-on: ubuntu-latest
@@ -89,7 +89,7 @@ jobs:
       environment:
         name: development
         url: https://ec2-54-172-119-210.compute-1.amazonaws.com:3000
-      if: github.ref_name == 'develop'
+      if: github.ref_name == 'dev'
       permissions:
         contents: read
         packages: write
@@ -117,4 +117,4 @@ jobs:
             target: express
             push: true
             tags: ${{ steps.meta.outputs.tags }}
-            labels: ${{ steps.meta.outputs.labels }}:development
+            labels: ${{ steps.meta.outputs.labels }}
