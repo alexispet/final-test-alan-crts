@@ -3,7 +3,7 @@ FROM node:21.6-alpine3.18 as build
 WORKDIR /app
 COPY package.json package-lock.json ./
 
-RUN npm install --production
+RUN npm install --only=production
 COPY . .
 
 FROM node:21.6-alpine3.18 as express
@@ -32,6 +32,9 @@ COPY --from=build /app/package.json .
 COPY --from=build /app/app.js .
 COPY --from=build /app/tests .
 
-RUN npm install
+COPY docker/express/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+ENTRYPOINT [ "docker-entrypoint" ]
 
 CMD ["npm", "run", "test"]
