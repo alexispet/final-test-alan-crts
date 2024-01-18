@@ -32,6 +32,6 @@ COPY --from=build /app/package.json .
 COPY --from=build /app/app.js .
 COPY --from=build /app/tests .
 
-RUN npm install --only=dev
+RUN npm install
 
 CMD ["npm", "run", "test"]
