@@ -8,7 +8,11 @@ services:
       - DB_USER: ${DB_USER}
       - DB_PASSWORD: ${DB_PASSWORD}
       - DB_DATABASE: ${DB_DATABASE}
-  
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.express-prod.rule=Host(`ec2-54-172-119-210.compute-1.amazonaws.com`)"
+      - "traefik.http.routers.express-prod.entrypoints=websecure"
+      - "traefik.http.routers.express-prod.tls.certresolver=myresolver"
   mariadb:
     image: mariadb:11.2.2
     environment:
