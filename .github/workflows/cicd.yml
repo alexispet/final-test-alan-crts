@@ -47,7 +47,7 @@ jobs:
     needs: [security, eslint]
     environment:
       name: main
-      url: https://ec2-3-88-109-154.compute-1.amazonaws.com
+      url: https://cesi-prod.alan-courtois.fr/
     if: github.ref_name == 'main'
     permissions:
       contents: read
@@ -83,7 +83,7 @@ jobs:
       needs: [security, eslint]
       environment:
         name: dev
-        url: https://ec2-3-88-109-154.compute-1.amazonaws.com:3000
+        url: https://cesi-dev.alan-courtois.fr/
       if: github.ref_name == 'dev'
       permissions:
         contents: read
