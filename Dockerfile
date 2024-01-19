@@ -19,6 +19,8 @@ COPY --from=build /app/app.js .
 COPY docker/express/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
+RUN apk add curl
+
 ENTRYPOINT [ "docker-entrypoint" ]
 
 CMD [ "npm", "run", "start" ]
