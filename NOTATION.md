@@ -18,10 +18,10 @@
 - [X] Dans un workflow GitHub, lighthouse est lancé tous les jours pour auditer les performances de l’application de production
 - [X] Sur le serveur, l’application de production et de développement sont accessibles en https
 - [X] Envoyer une notification (email, slack, discord...) quand un environnement est déployé
-- [ ] Vous avez un playbook Ansible qui installe docker sur le serveur.
+- [X] Vous avez un playbook Ansible qui installe docker sur le serveur.
 
 Bonus :
-- [ ] Vous avez un playbook Ansible qui copie les fichiers docker-compose du projet sur le serveur. 
+- [X] Vous avez un playbook Ansible qui copie les fichiers docker-compose du projet sur le serveur. 
   Ce playbook peut-être lancé manuellement via un workflow GitHub. 
   Vous envoyez une notification quand le playbook est lancé.
 

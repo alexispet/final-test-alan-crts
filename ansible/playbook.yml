@@ -59,6 +59,7 @@
         owner: admin
         group: admin
         mode: '0755'
+        
     - name: création du fichier .env
       copy:
         content: |
@@ -68,32 +69,28 @@
           DB_DATABASE={{ DB_DATABASE }}
         dest: "/home/admin/{{ env }}/.env"
 
-    - name: create files
-      file:
-        path: "/home/admin/{{ env }}/.env"
-        state: touch
-        owner: admin
-        group: admin
-        mode: '0755'
-    - name: send by scp docker-compose file to remote host
+    - name: Envoie du docker-compose global au serveur
       copy:
         src: /home/runner/work/final-test-alan-crts/final-test-alan-crts/docker-compose.global.yml
         dest: /home/admin/docker-compose.global.yml
         owner: admin
         group: admin
         mode: '0755'
-    - name: send by scp docker-compose file to remote host
+
+    - name: Envoie du docker-compose {{ env }} au serveur
       copy:
         src: /home/runner/work/final-test-alan-crts/final-test-alan-crts/docker-compose.{{ env }}.yml
         dest: /home/admin/{{ env }}/docker-compose.{{ env }}.yml
         owner: admin
         group: admin
         mode: '0755'
-    - name: run docker-compose
+
+    - name: lancement docker-compose global
       command: docker compose -f /home/admin/docker-compose.global.yml up -d
       args:
         chdir: /home/admin
-    - name: run docker-compose
+
+    - name: lancement docker-compose {{ env }}
       command: docker compose -f /home/admin/{{ env }}/docker-compose.{{ env }}.yml up -d
       args:
         chdir: /home/admin/{{ env }}
