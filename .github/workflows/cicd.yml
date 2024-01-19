@@ -7,7 +7,7 @@ env:
 
 jobs:    
   tests:
-    environment: development
+    environment: dev
     runs-on: ubuntu-latest
     env:
       DB_HOST: ${{ secrets.DB_HOST }}
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [security, eslint]
     environment:
-      name: production
+      name: main
       url: https://ec2-3-88-109-154.compute-1.amazonaws.com
     if: github.ref_name == 'main'
     permissions:
@@ -82,7 +82,7 @@ jobs:
       runs-on: ubuntu-latest
       needs: [security, eslint]
       environment:
-        name: development
+        name: dev
         url: https://ec2-3-88-109-154.compute-1.amazonaws.com:3000
       if: github.ref_name == 'dev'
       permissions:
