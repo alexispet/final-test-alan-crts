@@ -3,7 +3,7 @@ FROM node:21.6-alpine3.18 as build
 WORKDIR /app
 COPY package.json package-lock.json ./
 
-RUN npm install --only=production
+RUN npm install --omit=dev
 COPY . .
 
 FROM node:21.6-alpine3.18 as express
