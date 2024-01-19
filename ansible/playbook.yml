@@ -59,6 +59,15 @@
         owner: admin
         group: admin
         mode: '0755'
+    - name: création du fichier .env
+      copy:
+        content: |
+          DB_HOST={{ DB_HOST }}
+          DB_USER={{ DB_USER }}
+          DB_PASSWORD={{ DB_PASSWORD }}
+          DB_DATABASE={{ DB_DATABASE }}
+        dest: "/home/admin/{{ env }}/.env"
+
     - name: create files
       file:
         path: "/home/admin/{{ env }}/.env"
