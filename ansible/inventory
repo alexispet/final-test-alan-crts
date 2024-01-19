@@ -1,0 +1,2 @@
+[webservers]
+44.210.140.235 ansible_user=admin

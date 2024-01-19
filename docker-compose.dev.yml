@@ -1,0 +1,37 @@
+services:
+  express:
+    image: ghcr.io/alexispet/final-test-alan-crts/express-app:dev
+    depends_on:
+      - mariadb
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.express-dev.rule=Host(`dev.cesi.alan-courtois.fr`)"
+      - "traefik.http.routers.express-dev.entrypoints=websecure"
+      - "traefik.http.routers.express-dev.tls.certresolver=myresolver"
+      - "traefik.http.services.express-dev.loadbalancer.server.port=3000"
+      - "traefik.docker.network=internet"
+    networks:
+      - internet
+      - dev
+  mariadb:
+    image: mariadb:11.2.2
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./db:/var/lib/mysql
+    networks:
+      - dev
+networks:
+  internet:
+    external: true
+    name: custom_frontend
+  dev:
