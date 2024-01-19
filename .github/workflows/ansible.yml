@@ -3,6 +3,7 @@ on: [workflow_dispatch]
 
 jobs:
     triger-ansible:
+        environment: ${{ github.ref_name }}
         runs-on: ubuntu-latest
         if: github.ref_name == 'dev' || github.ref_name == 'main'
         steps:
@@ -17,7 +18,11 @@ jobs:
                 key: ${{secrets.SSH_PRIVATE_KEY}}
                 options:
                     --inventory inventory.ini
-                    --extra-vars env=${{github.ref_name}}
+                    -e env=${{github.ref_name}}
+                    -e DB_HOST=${{secrets.DB_HOST}}
+                    -e DB_USER=${{secrets.DB_USER}}
+                    -e DB_PASSWORD=${{secrets.DB_PASSWORD}}
+                    -e DB_DATABASE=${{secrets.DB_DATABASE}}
             - name: Shoutrrr
               uses: containrrr/shoutrrr-action@v1
               with:

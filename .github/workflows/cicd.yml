@@ -7,7 +7,7 @@ env:
 
 jobs:    
   tests:
-    environment: development
+    environment: dev
     runs-on: ubuntu-latest
     env:
       DB_HOST: ${{ secrets.DB_HOST }}
@@ -46,8 +46,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [security, eslint]
     environment:
-      name: production
-      url: https://ec2-3-88-109-154.compute-1.amazonaws.com
+      name: main
+      url: https://cesi-prod.alan-courtois.fr/
     if: github.ref_name == 'main'
     permissions:
       contents: read
@@ -82,8 +82,8 @@ jobs:
       runs-on: ubuntu-latest
       needs: [security, eslint]
       environment:
-        name: development
-        url: https://ec2-3-88-109-154.compute-1.amazonaws.com:3000
+        name: dev
+        url: https://cesi-dev.alan-courtois.fr/
       if: github.ref_name == 'dev'
       permissions:
         contents: read
