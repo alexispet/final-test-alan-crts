@@ -9,6 +9,7 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4  
+              
             - name: Run playbook
               uses: dawidd6/action-ansible-playbook@v2
               with:
@@ -23,9 +24,10 @@ jobs:
                     -e DB_USER=${{secrets.DB_USER}}
                     -e DB_PASSWORD=${{secrets.DB_PASSWORD}}
                     -e DB_DATABASE=${{secrets.DB_DATABASE}}
+                    
             - name: Shoutrrr
               uses: containrrr/shoutrrr-action@v1
               with:
                 url: ${{ secrets.DISCORD_WEBHOOK }}
                 title: Deployed on server ${{github.ref_name}}
-                message: ${{github.ref_name}} deployed on server with all changes 
+                message: server ${{github.ref_name}} as been setup and deployed

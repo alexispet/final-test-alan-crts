@@ -77,6 +77,13 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          
+      - name: Shoutrrr
+        uses: containrrr/shoutrrr-action@v1
+        with:
+          url: ${{ secrets.DISCORD_WEBHOOK }}
+          title: Deployed on server ${{github.ref_name}}
+          message: ${{github.ref_name}} has been deployed
 
   build-dev:
       runs-on: ubuntu-latest
@@ -113,3 +120,10 @@ jobs:
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
+
+        - name: Shoutrrr
+          uses: containrrr/shoutrrr-action@v1
+          with:
+            url: ${{ secrets.DISCORD_WEBHOOK }}
+            title: Deployed on server ${{github.ref_name}}
+            message: ${{github.ref_name}} has been deployed
