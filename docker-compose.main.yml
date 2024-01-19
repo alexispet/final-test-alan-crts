@@ -14,7 +14,7 @@ services:
       - "traefik.http.routers.express-prod.rule=Host(`cesi-prod.alan-courtois.fr`)"
       - "traefik.http.routers.express-prod.entrypoints=websecure"
       - "traefik.http.routers.express-prod.tls.certresolver=myresolver"
-      - "traefik.http.services.express-dev.loadbalancer.server.port=3000"
+      - "traefik.http.services.express-prod.loadbalancer.server.port=3000"
       - "traefik.docker.network=internet"
     networks:
       - internet
