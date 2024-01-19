@@ -11,7 +11,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
-      - "traefik.http.routers.express-dev.rule=Host(`dev.cesi.alan-courtois.fr`)"
+      - "traefik.http.routers.express-dev.rule=Host(`cesi-dev.alan-courtois.fr`)"
       - "traefik.http.routers.express-dev.entrypoints=websecure"
       - "traefik.http.routers.express-dev.tls.certresolver=myresolver"
       - "traefik.http.services.express-dev.loadbalancer.server.port=3000"
